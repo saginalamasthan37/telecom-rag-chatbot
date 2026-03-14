@@ -1,0 +1,37 @@
+TELECOM SUPPORT FAQ - VERIZON STYLE
+
+Q: How do I reset my router?
+A: To reset your router, locate the reset button on the back of your device. Press and hold it for 10 seconds using a paperclip until the lights flash. Wait 2 minutes for the router to fully restart. Your internet should reconnect automatically.
+
+Q: Why is my internet slow?
+A: Slow internet can be caused by several factors: too many devices connected, router placement (keep it central and elevated), interference from other electronics, or an outage in your area. Try restarting your router first by unplugging it for 30 seconds.
+
+Q: How do I upgrade my plan?
+A: You can upgrade your plan by logging into your account at verizon.com, navigating to My Plan, and selecting Upgrade. Alternatively, call 1-800-VERIZON or visit your nearest store. Plan upgrades take effect immediately.
+
+Q: What is the difference between 4G and 5G?
+A: 5G is the next generation of mobile network technology offering speeds up to 100x faster than 4G, lower latency (response time), and the ability to connect more devices simultaneously. 5G is ideal for streaming 4K video, gaming, and smart home devices.
+
+Q: How do I pay my bill?
+A: You can pay your bill through the My Verizon app, online at verizon.com/pay, by calling 1-800-VERIZON, or by setting up AutoPay in your account settings. AutoPay gives you a $10/month discount per line.
+
+Q: What do I do if I lose my phone?
+A: If you lose your phone, immediately log into verizon.com/myverizon and use the Suspend Service feature to prevent unauthorized use. You can also use Find My Device (Android) or Find My iPhone (Apple) to locate it. Contact us within 24 hours to discuss replacement options.
+
+Q: How do I add a line to my account?
+A: To add a line, log into My Verizon, go to Manage Account, and select Add a Line. You can choose a new phone or bring your own device. Family plans start at $30/line for 4+ lines.
+
+Q: What is the network coverage like in rural areas?
+A: Verizon has the largest 4G LTE network in America, covering over 99% of the US population. However, some very remote rural areas may have limited or no coverage. Check our coverage map at verizon.com/coverage before traveling.
+
+Q: How do I set up voicemail?
+A: Press and hold the 1 key on your phone to access voicemail. Follow the prompts to set up your password (minimum 4 digits) and record your greeting. You can also access voicemail from any phone by calling your number and pressing * when your greeting plays.
+
+Q: What is data throttling?
+A: Data throttling occurs when you exceed your plan's premium data limit. Your data speeds are temporarily reduced to 600 Kbps until your billing cycle resets. You can avoid throttling by monitoring usage in the My Verizon app or upgrading to an unlimited premium plan.
+
+Q: How do I fix dropped calls?
+A: Dropped calls can be caused by weak signal, network congestion, or phone software issues. Try these steps: restart your phone, check for carrier settings updates, move to an area with better signal, or contact support if the issue persists in a location where you normally have good coverage.
+
+Q: Can I keep my phone number if I switch to Verizon?
+A: Yes, you can keep your existing number when switching to Verizon. This is called number porting. Simply provide your current account number and PIN when signing up. The process takes 24-48 hours and your service will not be interrupted.
