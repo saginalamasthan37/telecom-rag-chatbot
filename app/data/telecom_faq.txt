@@ -1,4 +1,4 @@
-TELECOM SUPPORT FAQ - VERIZON STYLE
+TELECOM SUPPORT FAQ 
 
 Q: How do I reset my router?
 A: To reset your router, locate the reset button on the back of your device. Press and hold it for 10 seconds using a paperclip until the lights flash. Wait 2 minutes for the router to fully restart. Your internet should reconnect automatically.
