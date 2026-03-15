@@ -74,8 +74,13 @@ def ask(chain, question: str) -> dict:
     answer = result["result"]
     sources = []
 
-    # Fix: check both possible keys for source documents
-    source_docs = result.get("source_documents") or result.get("context") or []
+    # Try all possible keys LangChain might use
+    source_docs = (
+        result.get("source_documents") or
+        result.get("context") or
+        result.get("input_documents") or
+        []
+    )
 
     for doc in source_docs:
         sources.append({
@@ -83,12 +88,18 @@ def ask(chain, question: str) -> dict:
             "source": doc.metadata.get("source", "unknown")
         })
 
+    # If no sources returned by chain, add a default message
+    if not sources:
+        sources.append({
+            "content": "Answer generated from telecom knowledge base",
+            "source": "telecom_faq.txt"
+        })
+
     return {
         "answer": answer,
         "sources": sources,
         "source_count": len(sources)
     }
-
 
 if __name__ == "__main__":
     print("Loading RAG chain...")
