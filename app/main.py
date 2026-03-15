@@ -5,6 +5,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
+from app.chain import create_rag_chain, ask
 
 load_dotenv()
 
@@ -21,13 +22,16 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Load RAG chain once at startup
+print("Loading RAG chain at startup...")
+rag_chain = create_rag_chain()
+print("Chain ready!")
 
-# ---- Request Model ----
-# This defines what the user SENDS to the API
+
+# ---- Models ----
 class ChatRequest(BaseModel):
     question: str
 
-    # Example shown in Swagger UI docs
     class Config:
         json_schema_extra = {
             "example": {
@@ -36,8 +40,6 @@ class ChatRequest(BaseModel):
         }
 
 
-# ---- Response Models ----
-# This defines what the API SENDS BACK
 class SourceDocument(BaseModel):
     content: str
     source: str
@@ -49,7 +51,7 @@ class ChatResponse(BaseModel):
     source_count: int
 
 
-# Health check
+# ---- Endpoints ----
 @app.get("/")
 def health_check():
     return {
@@ -58,17 +60,28 @@ def health_check():
     }
 
 
-# Test models endpoint
-@app.post("/test-models", response_model=ChatResponse)
-def test_models(request: ChatRequest):
-    """Temporary endpoint to test models work correctly"""
+@app.post("/chat", response_model=ChatResponse)
+def chat(request: ChatRequest):
+    """Send a question, get an answer from the telecom knowledge base"""
+
+    # Validation
+    if not request.question.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="Question cannot be empty"
+        )
+
+    if len(request.question) > 500:
+        raise HTTPException(
+            status_code=400,
+            detail="Question too long. Max 500 characters"
+        )
+
+    # Get answer from RAG chain
+    result = ask(rag_chain, request.question)
+
     return ChatResponse(
-        answer=f"You asked: {request.question}",
-        sources=[
-            SourceDocument(
-                content="This is a test source",
-                source="test.txt"
-            )
-        ],
-        source_count=1
+        answer=result["answer"],
+        sources=[SourceDocument(**s) for s in result["sources"]],
+        source_count=result["source_count"]
     )
