@@ -12,7 +12,6 @@ load_dotenv()
 
 CHROMA_PATH = "app/vectorstore"
 
-# Custom prompt — gives the LLM its personality and rules
 TELECOM_PROMPT = PromptTemplate(
     template="""You are a helpful Verizon customer support AI assistant.
 Use ONLY the information provided in the context below to answer the customer's question.
@@ -30,7 +29,6 @@ Your Answer:""",
 
 
 def load_vectorstore():
-    """Load the existing ChromaDB vectorstore with HuggingFace embeddings"""
     embeddings = HuggingFaceEmbeddings(
         model_name="all-MiniLM-L6-v2"
     )
@@ -43,26 +41,20 @@ def load_vectorstore():
 
 
 def create_rag_chain():
-    """Connect vectorstore + LLM into a full RAG chain"""
-    
-    # Step 1 — Load vectorstore
     vectorstore = load_vectorstore()
 
-    # Step 2 — Create retriever (finds top 3 relevant chunks)
     retriever = vectorstore.as_retriever(
         search_type="similarity",
         search_kwargs={"k": 3}
     )
 
-    # Step 3 — Load Groq LLM
     llm = ChatGroq(
-        model="llama3-8b-8192",
+        model="llama-3.1-8b-instant",
         temperature=0,
         max_tokens=500,
         api_key=os.getenv("GROQ_API_KEY")
     )
 
-    # Step 4 — Build the chain
     chain = RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff",
@@ -75,7 +67,46 @@ def create_rag_chain():
     return chain
 
 
+def ask(chain, question: str) -> dict:
+    """Takes a question, returns answer + sources"""
+    result = chain.invoke({"query": question})
+
+    answer = result["result"]
+    sources = []
+
+    # Fix: check both possible keys for source documents
+    source_docs = result.get("source_documents") or result.get("context") or []
+
+    for doc in source_docs:
+        sources.append({
+            "content": doc.page_content[:150],
+            "source": doc.metadata.get("source", "unknown")
+        })
+
+    return {
+        "answer": answer,
+        "sources": sources,
+        "source_count": len(sources)
+    }
+
+
 if __name__ == "__main__":
-    print("Testing RAG chain...")
+    print("Loading RAG chain...")
     chain = create_rag_chain()
-    print("Chain is ready!")
+
+    test_questions = [
+        "How do I reset my router?",
+        "What is the difference between 4G and 5G?",
+        "How do I pay my bill?",
+        "Can I get a free pizza?"
+    ]
+
+    for question in test_questions:
+        print(f"\n{'='*50}")
+        print(f"Q: {question}")
+        result = ask(chain, question)
+        print(f"A: {result['answer']}")
+        print(f"Sources used: {result['source_count']} chunks")
+        if result['sources']:
+            print("First source preview:")
+            print(result['sources'][0]['content'])
